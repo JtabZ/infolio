@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects Directory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --accent: #3b82f6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .search-container {
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .stats {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            animation: fadeIn 0.8s ease 0.4s both;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .project-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            transform: translateX(5px);
+        }
+
+        .project-link::after {
+            content: '→';
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .project-link:hover::after {
+            transform: translateX(3px);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Analytic Solutions: Technical Information Repository</h1>
+            <p class="subtitle">Explore my collection of web projects and experiments</p>
+        </header>
+
+        <div class="search-container">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search projects by title, description, or tags..."
+                    autocomplete="off"
+                >
+                <span class="search-icon">🔍</span>
+            </div>
+        </div>
+
+        <div class="stats" id="stats">
+            Showing <span id="resultCount">0</span> of <span id="totalCount">0</span> projects
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Projects will be dynamically inserted here -->
+        </div>
+
+        <div class="no-results" id="noResults" style="display: none;">
+            <h2>No projects found</h2>
+            <p>Try adjusting your search terms</p>
+        </div>
+    </div>
+
+    <script>
+        // Your website data - Replace this with your actual projects
+        const websites = [
+            {
+                title: "Analytics Engagement Matrix",
+                description: "A sales enablement tool designed as a quick-reference guide or cheat sheet. It helps sales teams identify the right moments to engage their analytics specialists during a client conversation, particularly within the Salesforce ecosystem. The site is structured around common business challenges (like ROI, data clarity, and AI readiness), providing key Salesforce Signals to listen for and outlining the benefits of bringing in analytics to strengthen the dea",
+                url: "https://jtabz.github.io/analyticsengagementmatrix/",
+                tags: ["Sales Enablement", "Salesforce", "Analytics", "Business Intelligence", "Decision Support", "Sales Strategy", "Data Cloud", "CRM", "Cheat Sheet"]
+            },
+            {
+                title: "Tableau VizQL Data Service",
+                description: "An interactive guide to Tableau's VizQL Data Service (VDS), an API for programmatically querying governed data sources. It explains the core concepts of VDS, details its strengths and limitations, and provides strategic advice for adoption. The site features several interactive tools, including a 'Use Case Evaluator' to determine if VDS is the right solution for specific problems, an animated API flow diagram, and a chart that visualizes the service's license-based query caps.",
+                url: "https://jtabz.github.io/vdskw/",
+                tags: ["Tableau", "API", "VizQL", "Data as a Service", "Headless BI", "Data Engineering", "Embedded Analytics", "Developer Guide", "Data Governance"]
+            },
+            {
+                title: "Tableau Virtual Connections Guide",
+                description: "an interactive guide to Tableau Virtual Connections, a feature designed for enterprise data governance. The site explains the core problems VConns solve, such as maintenance burdens and inconsistent security, and details their architecture. Key interactive features include a step-by-step wizard for building and securing a connection with data policies, a visual chart comparing VConns to traditional data sources, and a clear breakdown of their limitations.",
+                tags: ["Tableau", "Virtual Connections", "Data Governance", "Data Architecture", "Row-Level Security", "Tableau Server", "Data Security", "Data Management", "Interactive Guide"]
+            },
+            {
+                title: "Tableau Bridge Documentation",
+                description: "This website is an interactive, single-page guide for installing, configuring, and managing the Tableau Bridge client on Windows. It provides a comprehensive, step-by-step walkthrough covering pre-installation checklists, configuration modes, security best practices, and links to official resources. The guide is designed for IT administrators and BI professionals to ensure a stable and secure connection between Tableau Cloud and private network data sources.",
+                url: "https://jtabz.github.io/tabridgedocs",
+                tags: ["Tableau", "Tableau Bridge", "Tableau Cloud", "Data Connectivity", "Business Intelligence", "Installation Guide", "Technical Documentation", "IT Administration", "Windows"]
+            },
+            {
+                title: "Tableau Bridge with Shared Drives Guide",
+                description: "An interactive playbook detailing best practices for deploying and operating Tableau Bridge. It functions as a hands-on guide for IT and BI professionals, covering critical topics such as high-availability architecture, security hardening, performance tuning, and troubleshooting common errors. The site features interactive tools, including a host sizing calculator and an error resolution guide, to help users build and maintain a robust, secure, and efficient data connection to Tableau Cloud.",
+                url: "https://jtabz.github.io/tabbridgeguidewithshareddrive/",
+                tags: ["Tableau Bridge", "Best Practices", "IT Operations", "Deployment Guide", "Troubleshooting", "Performance Tuning", "High Availability", "BI Admin", "shared drives"]
+            },
+            {
+                title: "Tableau Cloud Best Practices / QA",
+                description: "An interactive guide and strategic framework for establishing a comprehensive Quality Assurance (QA) process in Tableau Cloud, tailored for mid-sized enterprises. It provides a deep dive into the entire analytics lifecycle, covering best practices for architecting Dev/QA/Prod environments, implementing governance and workflows, mastering content promotion with tools like the CMT, and executing detailed testing.",
+                url: "https://jtabz.github.io/TabCloudQAExplorer",
+                tags: ["Tableau", "Tableau Cloud", "Quality Assurance", "Data Governance", "Content Promotion", "CI/CD", "Tableau Blueprint", "Best Practices", "BI Governance"]
+            },
+            {
+                title: "Tableau User Analysis",
+                description: "An interactive guide for analyzing user activity on Tableau Server and Tableau Cloud. It helps administrators and analysts define what an 'active user' means in different contexts, compares various methods for tracking user engagement—from built-in views to advanced repository queries—and visually demonstrates how to infer user roles based on their actions.",
+                url: "https://jtabz.github.io/tabserverusers/",
+                tags: ["Tableau", "Tableau Server", "Server Administration", "User Engagement", "Adoption Metrics", "BI Analytics", "License Management", "Tableau Repository", "Interactive Guide"]
+            },
+            {
+                title: "Tableau Narrative Options (Filtering Stories)",
+                description: "an interactive guide and decision tool for Tableau developers looking to build dynamic, filter-persistent narratives. It addresses the common limitation of filters not persisting in Tableau Stories and provides an in-depth comparison of three modern alternatives: Dynamic Zone Visibility (DZV), Multi-Dashboard Actions, and URL Actions.",
+                url: "https://jtabz.github.io/tabstoriesfiltering/",
+                tags: ["Tableau", "Dashboard Design", "Data Storytelling", "Guided Analytics", "User Experience", "Dynamic Zone Visibility", "Dashboard Actions", "Filter Persistence", "Interactive Guide"]
+            },
+            {
+                title: "Databricks + Tableau",
+                description: " aninteractive website explores the strategic partnership between Tableau and Databricks, showcasing how they bridge the gap between big data, AI, and business intelligence. The site explains the value of the 'Lakehouse' approach, details the technical integration methods, and presents real-world success stories with dynamic charts visualizing their business impact. It's designed as a resource for technology leaders and data professionals to understand and evaluate the benefits of this combined analytics platform.",
+                url: "https://jtabz.github.io/databricks-tableau/",
+                tags: ["Tableau", "Databricks", "Lakehouse", "Business Intelligence", "AI", "Big Data", "Data Architecture", "Data Visualization", "Case Studies"]
+            },
+            {
+                title: "Tableau Incorta Connection",
+                description: "an interactive technical guide for connecting Tableau Cloud to an on-premise Incorta data mart. It provides a visual breakdown of the required architecture using Tableau Bridge, a step-by-step implementation journey with detailed checklists, and interactive tools to help users make critical decisions, such as choosing between Live and Extract connections. The guide also details the core 'Thick Incorta, Thin Tableau' performance philosophy, making it a comprehensive resource for data architects and BI administrators.",
+                url: "https://jtabz.github.io/incortaconnection/",
+                tags: ["Tableau Cloud", "Incorta", "Tableau Bridge", "Hybrid Cloud", "Data Integration", "Data Architecture", "On-Premise Data", "Implementation Guide", "Performance Tuning"]
+            },
+            {
+                title: "Windows Service Monitoring Guide",
+                description: "An interactive guide for monitoring the uptime of critical Windows services. It presents a progressive learning path that covers solutions ranging from native Windows tools and advanced PowerShell scripting to a comprehensive comparison of third-party monitoring platforms. The guide features interactive elements such as a visual setup flowchart, copyable code snippets, and a dynamic tool for filtering and comparing monitoring software, helping system administrators choose the best strategy for their needs.",
+                url: "https://jtabz.github.io/windowsservicemonitoring/",
+                tags: ["Windows Server", "System Monitoring", "IT Operations", "PowerShell", "System Administration", "Service Uptime", "Alerting", "Observability", "How-To Guide"]
+            },
+            {
+                title: "Tableau Virtual Connections Infographic",
+                description: "A visual guide that explains the concept and benefits of Tableau Virtual Connections. Using a clear, step-by-step architectural diagram, it demonstrates how this feature acts as a centralized and governed data access layer between raw data sources and end-users. The site highlights the key advantages of this approach, including centralized governance, simplified user access, and agile data management, making it an ideal resource for data architects and Tableau administrators.",
+                url: "https://jtabz.github.io/vconns/",
+                tags: ["Tableau", "Virtual Connections", "Data Governance", "Data Security", "Data Architecture", "Row-Level Security", "Data Management", "Explainer"]
+            },
+            {
+                title: "Mircostrategy ONE (AI Compete August 2025)",
+                description: "an interactive report that deconstructs the capabilities of the MicroStrategy ONE platform, focusing on its integrated AI and BI features. It visually explains the platform's core architecture and features an 'Analytical Use Case Explorer.'' This allows users to select a business problem—such as root cause analysis, forecasting, or anomaly detection—and see a step-by-step workflow of how MicroStrategy tools provide a solution, complete with dynamic charts illustrating the output at each stage.",
+                url: "https://jtabz.github.io/microstratone-bread-/",
+                tags: ["MicroStrategy", "Business Intelligence", "Artificial Intelligence", "Analytics Platform", "Data Visualization", "Semantic Graph", "Forecasting", "Anomaly Detection", "Use Cases", "Compete"]
+            },
+
+        ];
+
+        // Initialize the page
+        let filteredWebsites = [...websites];
+
+        function renderProjects(projects) {
+            const grid = document.getElementById('projectsGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (projects.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+            } else {
+                grid.style.display = 'grid';
+                noResults.style.display = 'none';
+                
+                grid.innerHTML = projects.map(project => `
+                    <div class="project-card" onclick="window.open('${project.url}', '_blank')">
+                        <h2 class="project-title">${project.title}</h2>
+                        <p class="project-description">${project.description}</p>
+                        <div class="project-tags">
+                            ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <a href="${project.url}" target="_blank" class="project-link" onclick="event.stopPropagation()">
+                            View Project
+                        </a>
+                    </div>
+                `).join('');
+            }
+            
+            updateStats(projects.length);
+        }
+
+        function updateStats(resultCount) {
+            document.getElementById('resultCount').textContent = resultCount;
+            document.getElementById('totalCount').textContent = websites.length;
+        }
+
+        function searchProjects(query) {
+            if (!query) {
+                filteredWebsites = [...websites];
+            } else {
+                const searchTerm = query.toLowerCase();
+                filteredWebsites = websites.filter(site => {
+                    return site.title.toLowerCase().includes(searchTerm) ||
+                           site.description.toLowerCase().includes(searchTerm) ||
+                           site.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                });
+            }
+            renderProjects(filteredWebsites);
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchProjects(e.target.value);
+        });
+
+        // Initial render
+        renderProjects(websites);
+    </script>
+</body>
+</html>
